@@ -1,0 +1,137 @@
+@host = http://localhost:5095
+
+### Inicio
+GET {{host}}/
+
+########################################
+# EF CORE
+########################################
+
+### EF - Listar libros
+GET {{host}}/api/ef/libros
+
+### EF - Obtener libro
+GET {{host}}/api/ef/libros/2
+
+### EF - Insertar
+POST {{host}}/api/ef/libros
+Content-Type: application/json
+
+{
+  "generoId": 2,
+  "titulo": "Persistencia moderna con EF Core",
+  "autor": "Equipo Capacitación",
+  "isbn": "DEMO-EF-001",
+  "stock": 4
+}
+
+### EF - Actualizar
+PUT {{host}}/api/ef/libros/6
+Content-Type: application/json
+
+{
+  "generoId": 2,
+  "titulo": "Persistencia moderna con EF Core - Actualizado",
+  "autor": "Equipo Capacitación",
+  "isbn": "DEMO-EF-001",
+  "stock": 7
+}
+
+### EF - Eliminar
+DELETE {{host}}/api/ef/libros/6
+
+########################################
+# DAPPER + STORED PROCEDURES
+########################################
+
+### Dapper - Listar
+GET {{host}}/api/dapper/libros
+
+### Dapper - Obtener
+GET {{host}}/api/dapper/libros/2
+
+### Dapper - Insertar
+POST {{host}}/api/dapper/libros
+Content-Type: application/json
+
+{
+  "generoId": 2,
+  "titulo": "Persistencia moderna con Dapper",
+  "autor": "Equipo Capacitación",
+  "isbn": "DEMO-DAP-001",
+  "stock": 4
+}
+
+### Dapper - Actualizar
+PUT {{host}}/api/dapper/libros/7
+Content-Type: application/json
+
+{
+  "generoId": 2,
+  "titulo": "Persistencia moderna con Dapper - Actualizado",
+  "autor": "Equipo Capacitación",
+  "isbn": "DEMO-DAP-001",
+  "stock": 8
+}
+
+### Dapper - Eliminar
+DELETE {{host}}/api/dapper/libros/7
+
+########################################
+# TRANSACCIONES
+########################################
+
+### EF - Crear préstamo
+POST {{host}}/api/ef/prestamos
+Content-Type: application/json
+
+{
+  "lectorId": 1,
+  "libroId": 1,
+  "cantidad": 1,
+  "diasPrestamo": 7
+}
+
+### Dapper - Crear préstamo
+POST {{host}}/api/dapper/prestamos
+Content-Type: application/json
+
+{
+  "lectorId": 2,
+  "libroId": 4,
+  "cantidad": 1,
+  "diasPrestamo": 7
+}
+
+########################################
+# BENCHMARK - IMPACTO DEL ÍNDICE
+########################################
+
+### EF - COUNT sin índice
+GET {{host}}/api/benchmark/count/ef/sin-indice?generoId=7&stock=19&repeticiones=7
+
+### EF - COUNT con índice
+GET {{host}}/api/benchmark/count/ef/con-indice?generoId=7&stock=19&repeticiones=7
+
+### Dapper - COUNT sin índice
+GET {{host}}/api/benchmark/count/dapper/sin-indice?generoId=7&stock=19&repeticiones=7
+
+### Dapper - COUNT con índice
+GET {{host}}/api/benchmark/count/dapper/con-indice?generoId=7&stock=19&repeticiones=7
+
+
+########################################
+# BENCHMARK - CONSULTA REAL
+########################################
+
+### EF - TOP 100 sin índice
+GET {{host}}/api/benchmark/query/ef/sin-indice?generoId=7&stock=19&repeticiones=7
+
+### EF - TOP 100 con índice
+GET {{host}}/api/benchmark/query/ef/con-indice?generoId=7&stock=19&repeticiones=7
+
+### Dapper - TOP 100 sin índice
+GET {{host}}/api/benchmark/query/dapper/sin-indice?generoId=7&stock=19&repeticiones=7
+
+### Dapper - TOP 100 con índice
+GET {{host}}/api/benchmark/query/dapper/con-indice?generoId=7&stock=19&repeticiones=7
