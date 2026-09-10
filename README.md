@@ -44,7 +44,7 @@
 
 # Entregable II - SQL Server, ADO .NET, Entity Framework y Dapper
 
-## Entregable II - Modelo de base de datos
+## Entregable I - Modelo de base de datos
 ### RUTA: [https://github.com/chuamaca/WS-NTT/tree/master/002-EfDapperADONETSQLServerBasico/001.Entregable01-Modelodebasededatos](https://github.com/chuamaca/WS-NTT/tree/master/002-EfDapperADONETSQLServerBasico/001.Entregable01-Modelodebasededatos)
     Crear base de datos SQL Server con las tablas:
     •	Productos.
