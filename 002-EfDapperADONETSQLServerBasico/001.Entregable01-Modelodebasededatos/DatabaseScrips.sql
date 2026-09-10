@@ -4,6 +4,7 @@ GO
 USE fDapperADONETSQLServerBasico;
 GO
 
+
 CREATE TABLE dbo.Categorias
 (
     IdCategoria INT PRIMARY KEY IDENTITY(1,1),
@@ -13,7 +14,7 @@ CREATE TABLE dbo.Categorias
     CreatedBy NVARCHAR(100) NOT NULL,
     ModifiedAt DATETIME NULL,
     ModifiedBy NVARCHAR(100) NULL,
-    IsDeleted BIT NOT NULL DEFAULT 0,
+    IsDeleted BIT NOT NULL DEFAULT 0
 );
 
 
@@ -33,8 +34,8 @@ CREATE TABLE dbo.Productos
     FOREIGN KEY (IdCategoria) REFERENCES dbo.Categorias(IdCategoria)
 );
 
-Alter table dbo.Productos
-add Index IX_Productos_Nombre UNIQUE (Nombre);
+CREATE UNIQUE INDEX IX_Productos_Nombre
+ON dbo.Productos (Nombre);
 
 Create Table dbo.Clientes
 (
@@ -50,14 +51,20 @@ Create Table dbo.Clientes
     CreatedBy NVARCHAR(100) NOT NULL,
     ModifiedAt DATETIME NULL,
     ModifiedBy NVARCHAR(100) NULL,
-    IsDeleted BIT NOT NULL DEFAULT 0,
+    IsDeleted BIT NOT NULL DEFAULT 0
 );
 
-alter table dbo.clientes
-add Index IX_ClientesEmail UNIQUE (Email);
-add Index IX_ClientesDocumento UNIQUE (Documento);
-add Index IX_ClientesTelefono UNIQUE (Telefono);
-add Index IX_ClientesNombreApellido UNIQUE (Nombre, Apellido);
+CREATE UNIQUE INDEX IX_ClientesEmail
+ON dbo.Clientes (Email);
+
+CREATE UNIQUE INDEX IX_ClientesDocumento
+ON dbo.Clientes (Documento);
+
+CREATE UNIQUE INDEX IX_ClientesTelefono
+ON dbo.Clientes (Telefono);
+
+CREATE UNIQUE INDEX IX_ClientesNombreApellido
+ON dbo.Clientes (Nombre, Apellido);
 
 Create table dbo.Ordenes
 (
@@ -76,9 +83,11 @@ Create table dbo.Ordenes
     FOREIGN KEY (IdCliente) REFERENCES dbo.Clientes(IdCliente)
 );
 
-Alter table dbo.Ordenes
-add Index IX_OrdenesSerieComprobante UNIQUE (Serie, Comprobante);
-add Index IX_OrdenesClienteIdFecha UNIQUE (IdCliente, Fecha);
+CREATE UNIQUE INDEX IX_OrdenesSerieComprobante
+ON dbo.Ordenes (Serie, Comprobante);
+
+CREATE UNIQUE INDEX IX_OrdenesClienteIdFecha
+ON dbo.Ordenes (IdCliente, Fecha);
 
 Create table dbo.OrdenDetalles
 (
@@ -96,10 +105,14 @@ Create table dbo.OrdenDetalles
     FOREIGN KEY (IdOrden) REFERENCES dbo.Ordenes(IdOrden),
     FOREIGN KEY (IdProducto) REFERENCES dbo.Productos(IdProducto)
 );
-Alter table dbo.OrdenDetalles
-add Index IX_OrdenDetallesOrdenIdProductoId UNIQUE (IdOrden, IdProducto);
-add Index IX_OrdenDetallesProductoId UNIQUE (IdProducto);
-add Index IX_OrdenDetallesOrdenId UNIQUE (IdOrden);
+CREATE UNIQUE INDEX IX_OrdenDetallesOrdenIdProductoId
+ON dbo.OrdenDetalles (IdOrden, IdProducto);
+
+CREATE INDEX IX_OrdenDetallesProductoId
+ON dbo.OrdenDetalles (IdProducto);
+
+CREATE INDEX IX_OrdenDetallesOrdenId
+ON dbo.OrdenDetalles (IdOrden);
 
 
 SET IDENTITY_INSERT dbo.Categorias ON;
@@ -131,9 +144,9 @@ set IDENTITY_INSERT dbo.Ordenes ON;
 Insert into dbo.Ordenes (IdOrden, IdCliente, Serie, Comprobante, Fecha, Total, CreatedBy)
 values
 (1, 1, N'A001', N'0001', GETDATE(), 10.0, N'System'),
-(2, 2, N'A001', N'0002', GETDATE(), 15.0, N'System');
-(3, 1, N'A001', N'0003', GETDATE(), 20.0, N'System');
-(4, 2, N'A001', N'0004', GETDATE(), 25.0, N'System');
+(2, 2, N'A001', N'0002', GETDATE(), 15.0, N'System'),
+(3, 1, N'A001', N'0003', GETDATE(), 20.0, N'System'),
+(4, 2, N'A001', N'0004', GETDATE(), 25.0, N'System'),
 (5, 1, N'A001', N'0005', GETDATE(), 30.0, N'System');
 Set IDENTITY_INSERT dbo.Ordenes OFF;
 go
@@ -143,8 +156,8 @@ values
 (1, 1, 2, 1.5, N'System'),
 (1, 4, 1, 5.0, N'System'),
 (2, 2, 3, 1.4, N'System'),
-(2, 5, 1, 8.0, N'System');
-(2, 6, 1, 4.0, N'System');
+(2, 5, 1, 8.0, N'System'),
+(2, 6, 1, 4.0, N'System'),
 (3, 3, 2, 1.3, N'System'),
 (3, 4, 1, 5.0, N'System'),
 (4, 5, 2, 8.0, N'System'),
@@ -160,7 +173,7 @@ delete from Categorias where IdCategoria = 3;
 go
 
 Select
-o.IdOrden, o.Serie, o.Comprobante, o.Fecha, o.Total, od.Cantidad, od.Precio, c.Nombre as NombreCliente, c.Apellido as ApellidoCliente, p.Nombre as NombreProducto, from dbo.Ordenes o inner join dbo.Clientes c on o.IdCliente = c.IdCliente
+o.IdOrden, o.Serie, o.Comprobante, o.Fecha, o.Total, od.Cantidad, od.Precio, c.Nombre as NombreCliente, c.Apellido as ApellidoCliente, p.Nombre as NombreProducto from dbo.Ordenes o inner join dbo.Clientes c on o.IdCliente = c.IdCliente
 inner join dbo.OrdenDetalles od on o.IdOrden = od.IdOrden
 inner join dbo.Productos p on od.IdProducto = p.IdProducto
 Where o.IsDeleted = 1 and c.IsDeleted = 1 and od.IsDeleted = 1 and p.IsDeleted = 1;

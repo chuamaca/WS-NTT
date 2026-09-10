@@ -1,0 +1,190 @@
+@host = http://localhost:5297
+
+### Inicio
+GET {{host}}/
+
+########################################
+# CATEGORIAS
+########################################
+
+### Categorias - Listar
+GET {{host}}/api/categorias
+
+### Categorias - Obtener
+GET {{host}}/api/categorias/1
+
+### Categorias - Insertar
+POST {{host}}/api/categorias
+Content-Type: application/json
+
+{
+  "nombre": "Snacks",
+  "usuario": "Admin"
+}
+
+### Categorias - Actualizar
+PUT {{host}}/api/categorias/1
+Content-Type: application/json
+
+{
+  "nombre": "Bebidas Frias",
+  "usuario": "Admin"
+}
+
+### Categorias - Eliminar
+DELETE {{host}}/api/categorias/1
+
+########################################
+# PRODUCTOS
+########################################
+
+### Productos - Listar
+GET {{host}}/api/productos
+
+### Productos - Obtener
+GET {{host}}/api/productos/1
+
+### Productos - Insertar
+POST {{host}}/api/productos
+Content-Type: application/json
+
+{
+  "idCategoria": 1,
+  "nombre": "Agua Mineral",
+  "precio": 1.2,
+  "stock": 80,
+  "usuario": "Admin"
+}
+
+### Productos - Actualizar
+PUT {{host}}/api/productos/1
+Content-Type: application/json
+
+{
+  "idCategoria": 1,
+  "nombre": "Coca Cola 500ml",
+  "precio": 1.8,
+  "stock": 90,
+  "usuario": "Admin"
+}
+
+### Productos - Eliminar
+DELETE {{host}}/api/productos/1
+
+########################################
+# CLIENTES
+########################################
+
+### Clientes - Listar
+GET {{host}}/api/clientes
+
+### Clientes - Obtener
+GET {{host}}/api/clientes/1
+
+### Clientes - Insertar
+POST {{host}}/api/clientes
+Content-Type: application/json
+
+{
+  "nombre": "Carlos",
+  "apellido": "Ramirez",
+  "email": "carlos.ramirez@gmail.com",
+  "telefono": "111222333",
+  "direccion": "Jr. Las Flores 100",
+  "documento": "45678912",
+  "usuario": "Admin"
+}
+
+### Clientes - Actualizar
+PUT {{host}}/api/clientes/1
+Content-Type: application/json
+
+{
+  "nombre": "Juan",
+  "apellido": "Perez",
+  "email": "juanito@gmail.com",
+  "telefono": "1234567890",
+  "direccion": "Calle Falsa 123",
+  "documento": "12345678",
+  "usuario": "Admin"
+}
+
+### Clientes - Eliminar
+DELETE {{host}}/api/clientes/3
+
+########################################
+# ORDENES
+########################################
+
+### Ordenes - Listar
+GET {{host}}/api/ordenes
+
+### Ordenes - Obtener
+GET {{host}}/api/ordenes/1
+
+### Ordenes - Insertar
+POST {{host}}/api/ordenes
+Content-Type: application/json
+
+{
+  "idCliente": 1,
+  "serie": "A001",
+  "comprobante": "0006",
+  "usuario": "Admin",
+  "detalles": [
+    { "idProducto": 1, "cantidad": 2, "precio": 1.5 },
+    { "idProducto": 4, "cantidad": 1, "precio": 5.0 }
+  ]
+}
+
+### Ordenes - Actualizar
+PUT {{host}}/api/ordenes/1
+Content-Type: application/json
+
+{
+  "idCliente": 1,
+  "serie": "A001",
+  "comprobante": "0001",
+  "total": 15.0,
+  "usuario": "Admin"
+}
+
+### Ordenes - Eliminar
+DELETE {{host}}/api/ordenes/1
+
+########################################
+# ORDEN DETALLES
+########################################
+
+### OrdenDetalles - Listar
+GET {{host}}/api/ordendetalles
+
+### OrdenDetalles - Obtener
+GET {{host}}/api/ordendetalles/1
+
+### OrdenDetalles - Insertar
+POST {{host}}/api/ordendetalles
+Content-Type: application/json
+
+{
+  "idOrden": 1,
+  "idProducto": 2,
+  "cantidad": 3,
+  "precio": 1.4,
+  "usuario": "Admin"
+}
+
+### OrdenDetalles - Actualizar
+PUT {{host}}/api/ordendetalles/1
+Content-Type: application/json
+
+{
+  "idOrden": 1,
+  "idProducto": 1,
+  "cantidad": 4,
+  "precio": 1.5,
+  "usuario": "Admin"
+}
+
+### OrdenDetalles - Eliminar
+DELETE {{host}}/api/ordendetalles/1

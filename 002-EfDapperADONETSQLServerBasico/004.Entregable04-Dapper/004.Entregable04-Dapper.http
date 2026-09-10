@@ -1,0 +1,45 @@
+@host = http://localhost:5299
+
+### Inicio
+GET {{host}}/
+
+########################################
+# CLIENTES (Dapper)
+########################################
+
+### Clientes - Listar
+GET {{host}}/api/clientes
+
+### Clientes - Obtener
+GET {{host}}/api/clientes/9
+
+### Clientes - Insertar
+POST {{host}}/api/clientes
+Content-Type: application/json
+
+{
+  "nombre": "Carlos Pedsp",
+  "apellido": "Ramirsdez",
+  "email": "carlos.dssddsd@gmail.com",
+  "telefono": "4564536",
+  "direccion": "Jr. Lsdas Flores 100",
+  "documento": "34535346",
+  "usuario": "Admin"
+}
+
+### Clientes - Actualizar
+PUT {{host}}/api/clientes/9
+Content-Type: application/json
+
+{
+  "nombre": "Juan",
+  "apellido": "Perez we",
+  "email": "juanito1@gmail.com",
+  "telefono": "1234567890",
+  "direccion": "Calle Falsa 123",
+  "documento": "12345333",
+  "usuario": "Admin"
+}
+
+### Clientes - Eliminar
+DELETE {{host}}/api/clientes/10
