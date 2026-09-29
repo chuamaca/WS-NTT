@@ -1,0 +1,672 @@
+openapi: 3.0.4
+info:
+  title: Demo Api
+  version: "2.0"
+tags:
+  - name: Auth
+  - name: Category
+  - name: Product
+paths:
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      operationId: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequestDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObjectApiResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObjectApiResponse"
+        "401":
+          description: Unauthorized
+  /api/categories:
+    get:
+      tags:
+        - Category
+      operationId: GetCategories
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Bearer {token}"
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryListApiResponse"
+        "401":
+          description: Unauthorized
+    post:
+      tags:
+        - Category
+      operationId: CreateCategory
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Bearer {token}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCategoryRequestDto"
+        required: true
+      security:
+        - Bearer: []
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+        "401":
+          description: Unauthorized
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+  /api/categories/{id}:
+    get:
+      tags:
+        - Category
+      operationId: GetCategoryById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Bearer {token}"
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+    put:
+      tags:
+        - Category
+      operationId: UpdateCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Bearer {token}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCategoryRequestDto"
+        required: true
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+    delete:
+      tags:
+        - Category
+      operationId: DeleteCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Bearer {token}"
+      security:
+        - Bearer: []
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+  /api/products:
+    get:
+      tags:
+        - Product
+      operationId: GetProducts
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Bearer {token}"
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductListApiResponse"
+        "401":
+          description: Unauthorized
+    post:
+      tags:
+        - Product
+      operationId: CreateProduct
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Bearer {token}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProductRequestDto"
+        required: true
+      security:
+        - Bearer: []
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+        "401":
+          description: Unauthorized
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+  /api/products/{id}:
+    get:
+      tags:
+        - Product
+      operationId: GetProductById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Bearer {token}"
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+    put:
+      tags:
+        - Product
+      operationId: UpdateProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Bearer {token}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProductRequestDto"
+        required: true
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+    delete:
+      tags:
+        - Product
+      operationId: DeleteProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: "Bearer {token}"
+      security:
+        - Bearer: []
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador único de la categoría.
+          format: int32
+        name:
+          type: string
+          description: Nombre visible de la categoría.
+          nullable: true
+        description:
+          type: string
+          description: Descripción de la categoría.
+          nullable: true
+      additionalProperties: false
+      description: Representa una categoría para clasificar productos.
+    CategoryApiResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+          nullable: true
+        data:
+          $ref: "#/components/schemas/Category"
+        errors:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
+    CategoryListApiResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+          nullable: true
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category"
+          nullable: true
+        errors:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
+    CreateCategoryRequestDto:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 2
+          type: string
+          description: Nombre visible de la categoría.
+        description:
+          maxLength: 500
+          minLength: 0
+          type: string
+          description: Descripción de la categoría.
+          nullable: true
+      additionalProperties: false
+      description: Datos necesarios para crear una categoría.
+    CreateProductRequestDto:
+      required:
+        - name
+        - sku
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 2
+          type: string
+          description: Nombre del producto.
+        sku:
+          maxLength: 50
+          minLength: 3
+          pattern: ^[A-Za-z0-9-]+$
+          type: string
+          description: Código único del producto.
+        price:
+          maximum: 1000000
+          minimum: 0.01
+          type: number
+          description: Precio del producto.
+          format: double
+        categoryId:
+          maximum: 2147483647
+          minimum: 1
+          type: integer
+          description: Identificador de la categoría del producto.
+          format: int32
+        isActive:
+          type: boolean
+          description: Valor que indica si el producto está activo.
+      additionalProperties: false
+      description: Datos necesarios para crear un producto.
+    LoginRequestDto:
+      required:
+        - password
+        - username
+        # - companyId
+      type: object
+      properties:
+        username:
+          minLength: 1
+          type: string
+          description: Nombre del usuario.
+        password:
+          minLength: 1
+          type: string
+          description: Contraseña del usuario.
+        # companyId:
+        #   type: integer
+        #   description: Identificador de la compañía.
+        #   example: 1
+        #   format: int32
+      additionalProperties: false
+      description: Credenciales utilizadas para solicitar un token de acceso.
+    ObjectApiResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+          nullable: true
+        data:
+          nullable: true
+        errors:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador único del producto.
+          format: int32
+        name:
+          type: string
+          description: Nombre visible del producto.
+          nullable: true
+        sku:
+          type: string
+          description: Código único del producto.
+          nullable: true
+        price:
+          type: number
+          description: Precio del producto.
+          format: double
+        categoryId:
+          type: integer
+          description: Identificador de la categoría del producto.
+          format: int32
+        category:
+          $ref: "#/components/schemas/Category"
+        isActive:
+          type: boolean
+          description: Indica si el producto está activo.
+        createdAt:
+          type: string
+          description: Fecha de creación del registro.
+          format: date-time
+      additionalProperties: false
+      description: Representa un producto disponible en el catálogo.
+    ProductApiResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+          nullable: true
+        data:
+          $ref: "#/components/schemas/Product"
+        errors:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
+    ProductListApiResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+          nullable: true
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+          nullable: true
+        errors:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
+    UpdateCategoryRequestDto:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 2
+          type: string
+          description: Nuevo nombre de la categoría.
+        description:
+          maxLength: 500
+          minLength: 0
+          type: string
+          description: Nueva descripción de la categoría.
+          nullable: true
+      additionalProperties: false
+      description: Datos que pueden modificarse de una categoría existente.
+    UpdateProductRequestDto:
+      required:
+        - name
+        - sku
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 2
+          type: string
+          description: Nuevo nombre del producto.
+        sku:
+          maxLength: 50
+          minLength: 3
+          pattern: ^[A-Za-z0-9-]+$
+          type: string
+          description: Nuevo código único del producto.
+        price:
+          maximum: 1000000
+          minimum: 0.01
+          type: number
+          description: Nuevo precio del producto.
+          format: double
+        categoryId:
+          maximum: 2147483647
+          minimum: 1
+          type: integer
+          description: Nuevo identificador de la categoría del producto.
+          format: int32
+        isActive:
+          type: boolean
+          description: Nuevo estado de activación del producto.
+      additionalProperties: false
+      description: Datos que pueden modificarse de un producto existente.
+  securitySchemes:
+    Bearer:
+      type: http
+      description: "Escribe: Bearer {token}"
+      scheme: bearer
+      bearerFormat: JWT

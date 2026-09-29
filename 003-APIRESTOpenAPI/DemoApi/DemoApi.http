@@ -1,0 +1,76 @@
+@DemoApi_HostAddress = http://localhost:5037
+
+GET {{DemoApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+# Reservas de salas: primero obtener un token en /api/auth/login y pegarlo aquí.
+@token = <pegar-token>
+
+POST {{DemoApi_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "P@ssw0rd!" }
+
+###
+
+GET {{DemoApi_HostAddress}}/api/reservas
+Authorization: Bearer {{token}}
+
+###
+
+GET {{DemoApi_HostAddress}}/api/reservas?fecha=2026-10-01
+Authorization: Bearer {{token}}
+
+###
+
+GET {{DemoApi_HostAddress}}/api/reservas/1
+Authorization: Bearer {{token}}
+
+###
+
+POST {{DemoApi_HostAddress}}/api/reservas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombreSala": "Sala Andes",
+  "fechaReserva": "2026-10-01",
+  "horaInicio": "10:00:00",
+  "horaFin": "11:00:00",
+  "nombreResponsable": "Ana Torres",
+  "cantidadAsistentes": 5,
+  "motivo": "Reunión de seguimiento"
+}
+
+###
+
+PUT {{DemoApi_HostAddress}}/api/reservas/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombreSala": "Sala Andes",
+  "fechaReserva": "2026-10-01",
+  "horaInicio": "09:00:00",
+  "horaFin": "10:30:00",
+  "nombreResponsable": "Ana Torres",
+  "cantidadAsistentes": 8,
+  "motivo": "Reunión de planificación",
+  "estado": "Confirmada"
+}
+
+###
+
+# Cancela la reserva (estado = Cancelada)
+DELETE {{DemoApi_HostAddress}}/api/reservas/1
+Authorization: Bearer {{token}}
+
+###
+
+# Elimina la reserva definitivamente
+DELETE {{DemoApi_HostAddress}}/api/reservas/1?eliminar=true
+Authorization: Bearer {{token}}
+
+###

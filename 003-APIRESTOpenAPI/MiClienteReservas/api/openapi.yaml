@@ -1,0 +1,1125 @@
+openapi: 3.0.4
+info:
+  title: DemoApi
+  version: "1.0"
+servers:
+- url: /
+security:
+- Bearer: []
+tags:
+- name: Auth
+- name: Category
+- name: Product
+- name: Reserva
+paths:
+  /api/auth/login:
+    post:
+      operationId: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: "#/components/schemas/LoginRequestDto"
+              description: Credenciales utilizadas para solicitar un token de acceso.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObjectApiResponse"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObjectApiResponse"
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      tags:
+      - Auth
+  /api/categories:
+    get:
+      operationId: GetCategories
+      responses:
+        "401":
+          description: Unauthorized
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryListApiResponse"
+          description: OK
+      tags:
+      - Category
+    post:
+      operationId: CreateCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: "#/components/schemas/CreateCategoryRequestDto"
+              description: Datos necesarios para crear una categoría.
+        required: true
+      responses:
+        "401":
+          description: Unauthorized
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: Bad Request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: Conflict
+      tags:
+      - Category
+  /api/categories/{id}:
+    delete:
+      operationId: DeleteCategory
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "401":
+          description: Unauthorized
+        "204":
+          description: No Content
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: Not Found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: Conflict
+      tags:
+      - Category
+    get:
+      operationId: GetCategoryById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "401":
+          description: Unauthorized
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: Not Found
+      tags:
+      - Category
+    put:
+      operationId: UpdateCategory
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: "#/components/schemas/UpdateCategoryRequestDto"
+              description: Datos que pueden modificarse de una categoría existente.
+        required: true
+      responses:
+        "401":
+          description: Unauthorized
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: Not Found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryApiResponse"
+          description: Conflict
+      tags:
+      - Category
+  /api/products:
+    get:
+      operationId: GetProducts
+      responses:
+        "401":
+          description: Unauthorized
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductListApiResponse"
+          description: OK
+      tags:
+      - Product
+    post:
+      operationId: CreateProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: "#/components/schemas/CreateProductRequestDto"
+              description: Datos necesarios para crear un producto.
+        required: true
+      responses:
+        "401":
+          description: Unauthorized
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+          description: Bad Request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+          description: Conflict
+      tags:
+      - Product
+  /api/products/{id}:
+    delete:
+      operationId: DeleteProduct
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "401":
+          description: Unauthorized
+        "204":
+          description: No Content
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+          description: Not Found
+      tags:
+      - Product
+    get:
+      operationId: GetProductById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "401":
+          description: Unauthorized
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+          description: Not Found
+      tags:
+      - Product
+    put:
+      operationId: UpdateProduct
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: "#/components/schemas/UpdateProductRequestDto"
+              description: Datos que pueden modificarse de un producto existente.
+        required: true
+      responses:
+        "401":
+          description: Unauthorized
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+          description: Not Found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductApiResponse"
+          description: Conflict
+      tags:
+      - Product
+  /api/reservas:
+    get:
+      operationId: GetReservas
+      parameters:
+      - explode: true
+        in: query
+        name: fecha
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      responses:
+        "401":
+          description: Unauthorized
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaListApiResponse"
+          description: OK
+      summary: Obtiene todas las reservas o las filtra por fecha (yyyy-MM-dd).
+      tags:
+      - Reserva
+    post:
+      operationId: CreateReserva
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: "#/components/schemas/CreateReservaRequestDto"
+              description: Datos necesarios para registrar una reserva.
+        required: true
+      responses:
+        "401":
+          description: Unauthorized
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: Bad Request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: Conflict
+      tags:
+      - Reserva
+  /api/reservas/{id}:
+    delete:
+      operationId: DeleteReserva
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      - explode: true
+        in: query
+        name: eliminar
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "401":
+          description: Unauthorized
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: OK
+        "204":
+          description: No Content
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: Not Found
+      summary: Cancela una reserva (estado Cancelada). Con ?eliminar=true la elimina
+        definitivamente.
+      tags:
+      - Reserva
+    get:
+      operationId: GetReservaById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "401":
+          description: Unauthorized
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: Not Found
+      tags:
+      - Reserva
+    put:
+      operationId: UpdateReserva
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: "#/components/schemas/UpdateReservaRequestDto"
+              description: Datos que pueden modificarse de una reserva existente.
+        required: true
+      responses:
+        "401":
+          description: Unauthorized
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: Not Found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservaApiResponse"
+          description: Conflict
+      tags:
+      - Reserva
+components:
+  schemas:
+    Category:
+      additionalProperties: false
+      description: Representa una categoría para clasificar productos.
+      example:
+        id: 0
+        name: name
+        description: description
+      properties:
+        id:
+          description: Identificador único de la categoría.
+          format: int32
+          type: integer
+        name:
+          description: Nombre visible de la categoría.
+          nullable: true
+          type: string
+        description:
+          description: Descripción de la categoría.
+          nullable: true
+          type: string
+      type: object
+    CategoryApiResponse:
+      additionalProperties: false
+      example:
+        isSuccess: true
+        message: message
+        data: ""
+        errors:
+        - errors
+        - errors
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          nullable: true
+          type: string
+        data:
+          allOf:
+          - $ref: "#/components/schemas/Category"
+          description: Representa una categoría para clasificar productos.
+          nullable: true
+        errors:
+          items:
+            type: string
+          nullable: true
+          type: array
+      type: object
+    CategoryListApiResponse:
+      additionalProperties: false
+      example:
+        isSuccess: true
+        message: message
+        data:
+        - id: 0
+          name: name
+          description: description
+        - id: 0
+          name: name
+          description: description
+        errors:
+        - errors
+        - errors
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          nullable: true
+          type: string
+        data:
+          items:
+            $ref: "#/components/schemas/Category"
+          nullable: true
+          type: array
+        errors:
+          items:
+            type: string
+          nullable: true
+          type: array
+      type: object
+    CreateCategoryRequestDto:
+      additionalProperties: false
+      description: Datos necesarios para crear una categoría.
+      example:
+        name: name
+        description: description
+      properties:
+        name:
+          description: Nombre visible de la categoría.
+          maxLength: 100
+          minLength: 2
+          type: string
+        description:
+          description: Descripción de la categoría.
+          maxLength: 500
+          minLength: 0
+          nullable: true
+          type: string
+      required:
+      - name
+      type: object
+    CreateProductRequestDto:
+      additionalProperties: false
+      description: Datos necesarios para crear un producto.
+      example:
+        name: name
+        sku: sku
+        price: 80082.82824527295
+        categoryId: 1294386359
+        isActive: true
+      properties:
+        name:
+          description: Nombre del producto.
+          maxLength: 200
+          minLength: 2
+          type: string
+        sku:
+          description: Código único del producto.
+          maxLength: 50
+          minLength: 3
+          pattern: "^[A-Za-z0-9-]+$"
+          type: string
+        price:
+          description: Precio del producto.
+          format: double
+          maximum: 1000000
+          minimum: 0.01
+          type: number
+        categoryId:
+          description: Identificador de la categoría del producto.
+          format: int32
+          maximum: 2147483647
+          minimum: 1
+          type: integer
+        isActive:
+          description: Valor que indica si el producto está activo.
+          type: boolean
+      required:
+      - name
+      - sku
+      type: object
+    CreateReservaRequestDto:
+      additionalProperties: false
+      description: Datos necesarios para registrar una reserva.
+      example:
+        nombreSala: nombreSala
+        fechaReserva: 2000-01-23
+        horaInicio: horaInicio
+        horaFin: horaFin
+        nombreResponsable: nombreResponsable
+        cantidadAsistentes: 81
+        motivo: motivo
+      properties:
+        nombreSala:
+          description: Nombre de la sala a reservar.
+          maxLength: 100
+          minLength: 2
+          type: string
+        fechaReserva:
+          description: Fecha de la reserva (yyyy-MM-dd).
+          format: date
+          type: string
+        horaInicio:
+          description: Hora de inicio (HH:mm:ss).
+          format: time
+          type: string
+        horaFin:
+          description: Hora de fin (HH:mm:ss). Debe ser posterior a la hora de inicio.
+          format: time
+          type: string
+        nombreResponsable:
+          description: Nombre del responsable de la reserva.
+          maxLength: 150
+          minLength: 2
+          type: string
+        cantidadAsistentes:
+          description: Cantidad de asistentes. Debe ser mayor a cero.
+          format: int32
+          maximum: 1000
+          minimum: 1
+          type: integer
+        motivo:
+          description: Motivo de la reunión.
+          maxLength: 300
+          minLength: 3
+          type: string
+      required:
+      - fechaReserva
+      - horaFin
+      - horaInicio
+      - motivo
+      - nombreResponsable
+      - nombreSala
+      type: object
+    EstadoReserva:
+      description: Estados posibles de una reserva.
+      enum:
+      - Pendiente
+      - Confirmada
+      - Cancelada
+      type: string
+    LoginRequestDto:
+      additionalProperties: false
+      description: Credenciales utilizadas para solicitar un token de acceso.
+      example:
+        username: username
+        password: password
+      properties:
+        username:
+          description: Nombre del usuario.
+          minLength: 1
+          type: string
+        password:
+          description: Contraseña del usuario.
+          minLength: 1
+          type: string
+      required:
+      - password
+      - username
+      type: object
+    ObjectApiResponse:
+      additionalProperties: false
+      example:
+        isSuccess: true
+        message: message
+        data: ""
+        errors:
+        - errors
+        - errors
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          nullable: true
+          type: string
+        data:
+          nullable: true
+        errors:
+          items:
+            type: string
+          nullable: true
+          type: array
+      type: object
+    Product:
+      additionalProperties: false
+      description: Representa un producto disponible en el catálogo.
+      example:
+        id: 0
+        name: name
+        sku: sku
+        price: 6.027456183070403
+        categoryId: 1
+        category: ""
+        isActive: true
+        createdAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          description: Identificador único del producto.
+          format: int32
+          type: integer
+        name:
+          description: Nombre visible del producto.
+          nullable: true
+          type: string
+        sku:
+          description: Código único del producto.
+          nullable: true
+          type: string
+        price:
+          description: Precio del producto.
+          format: double
+          type: number
+        categoryId:
+          description: Identificador de la categoría del producto.
+          format: int32
+          type: integer
+        category:
+          allOf:
+          - $ref: "#/components/schemas/Category"
+          description: Categoría a la que pertenece el producto.
+          nullable: true
+        isActive:
+          description: Indica si el producto está activo.
+          type: boolean
+        createdAt:
+          description: Fecha de creación del registro.
+          format: date-time
+          type: string
+      type: object
+    ProductApiResponse:
+      additionalProperties: false
+      example:
+        isSuccess: true
+        message: message
+        data: ""
+        errors:
+        - errors
+        - errors
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          nullable: true
+          type: string
+        data:
+          allOf:
+          - $ref: "#/components/schemas/Product"
+          description: Representa un producto disponible en el catálogo.
+          nullable: true
+        errors:
+          items:
+            type: string
+          nullable: true
+          type: array
+      type: object
+    ProductListApiResponse:
+      additionalProperties: false
+      example:
+        isSuccess: true
+        message: message
+        data:
+        - id: 0
+          name: name
+          sku: sku
+          price: 6.027456183070403
+          categoryId: 1
+          category: ""
+          isActive: true
+          createdAt: 2000-01-23T04:56:07.000+00:00
+        - id: 0
+          name: name
+          sku: sku
+          price: 6.027456183070403
+          categoryId: 1
+          category: ""
+          isActive: true
+          createdAt: 2000-01-23T04:56:07.000+00:00
+        errors:
+        - errors
+        - errors
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          nullable: true
+          type: string
+        data:
+          items:
+            $ref: "#/components/schemas/Product"
+          nullable: true
+          type: array
+        errors:
+          items:
+            type: string
+          nullable: true
+          type: array
+      type: object
+    Reserva:
+      additionalProperties: false
+      description: Representa la reserva de una sala de reuniones.
+      example:
+        id: 0
+        nombreSala: nombreSala
+        fechaReserva: 2000-01-23
+        horaInicio: horaInicio
+        horaFin: horaFin
+        nombreResponsable: nombreResponsable
+        cantidadAsistentes: 6
+        motivo: motivo
+        estado: ""
+      properties:
+        id:
+          description: Identificador único de la reserva.
+          format: int32
+          type: integer
+        nombreSala:
+          description: Nombre de la sala reservada.
+          nullable: true
+          type: string
+        fechaReserva:
+          description: Fecha de la reserva.
+          format: date
+          type: string
+        horaInicio:
+          description: Hora de inicio de la reunión.
+          format: time
+          type: string
+        horaFin:
+          description: Hora de fin de la reunión.
+          format: time
+          type: string
+        nombreResponsable:
+          description: Nombre de la persona responsable de la reserva.
+          nullable: true
+          type: string
+        cantidadAsistentes:
+          description: Cantidad de asistentes a la reunión.
+          format: int32
+          type: integer
+        motivo:
+          description: Motivo de la reunión.
+          nullable: true
+          type: string
+        estado:
+          allOf:
+          - $ref: "#/components/schemas/EstadoReserva"
+          description: Estado actual de la reserva.
+      type: object
+    ReservaApiResponse:
+      additionalProperties: false
+      example:
+        isSuccess: true
+        message: message
+        data: ""
+        errors:
+        - errors
+        - errors
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          nullable: true
+          type: string
+        data:
+          allOf:
+          - $ref: "#/components/schemas/Reserva"
+          description: Representa la reserva de una sala de reuniones.
+          nullable: true
+        errors:
+          items:
+            type: string
+          nullable: true
+          type: array
+      type: object
+    ReservaListApiResponse:
+      additionalProperties: false
+      example:
+        isSuccess: true
+        message: message
+        data:
+        - id: 0
+          nombreSala: nombreSala
+          fechaReserva: 2000-01-23
+          horaInicio: horaInicio
+          horaFin: horaFin
+          nombreResponsable: nombreResponsable
+          cantidadAsistentes: 6
+          motivo: motivo
+          estado: ""
+        - id: 0
+          nombreSala: nombreSala
+          fechaReserva: 2000-01-23
+          horaInicio: horaInicio
+          horaFin: horaFin
+          nombreResponsable: nombreResponsable
+          cantidadAsistentes: 6
+          motivo: motivo
+          estado: ""
+        errors:
+        - errors
+        - errors
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          nullable: true
+          type: string
+        data:
+          items:
+            $ref: "#/components/schemas/Reserva"
+          nullable: true
+          type: array
+        errors:
+          items:
+            type: string
+          nullable: true
+          type: array
+      type: object
+    UpdateCategoryRequestDto:
+      additionalProperties: false
+      description: Datos que pueden modificarse de una categoría existente.
+      example:
+        name: name
+        description: description
+      properties:
+        name:
+          description: Nuevo nombre de la categoría.
+          maxLength: 100
+          minLength: 2
+          type: string
+        description:
+          description: Nueva descripción de la categoría.
+          maxLength: 500
+          minLength: 0
+          nullable: true
+          type: string
+      required:
+      - name
+      type: object
+    UpdateProductRequestDto:
+      additionalProperties: false
+      description: Datos que pueden modificarse de un producto existente.
+      example:
+        name: name
+        sku: sku
+        price: 80082.82824527295
+        categoryId: 1294386359
+        isActive: true
+      properties:
+        name:
+          description: Nuevo nombre del producto.
+          maxLength: 200
+          minLength: 2
+          type: string
+        sku:
+          description: Nuevo código único del producto.
+          maxLength: 50
+          minLength: 3
+          pattern: "^[A-Za-z0-9-]+$"
+          type: string
+        price:
+          description: Nuevo precio del producto.
+          format: double
+          maximum: 1000000
+          minimum: 0.01
+          type: number
+        categoryId:
+          description: Nuevo identificador de la categoría del producto.
+          format: int32
+          maximum: 2147483647
+          minimum: 1
+          type: integer
+        isActive:
+          description: Nuevo estado de activación del producto.
+          type: boolean
+      required:
+      - name
+      - sku
+      type: object
+    UpdateReservaRequestDto:
+      additionalProperties: false
+      description: Datos que pueden modificarse de una reserva existente.
+      example:
+        nombreSala: nombreSala
+        fechaReserva: 2000-01-23
+        horaInicio: horaInicio
+        horaFin: horaFin
+        nombreResponsable: nombreResponsable
+        cantidadAsistentes: 81
+        motivo: motivo
+        estado: ""
+      properties:
+        nombreSala:
+          description: Nuevo nombre de la sala.
+          maxLength: 100
+          minLength: 2
+          type: string
+        fechaReserva:
+          description: Nueva fecha de la reserva (yyyy-MM-dd).
+          format: date
+          type: string
+        horaInicio:
+          description: Nueva hora de inicio (HH:mm:ss).
+          format: time
+          type: string
+        horaFin:
+          description: Nueva hora de fin (HH:mm:ss). Debe ser posterior a la hora
+            de inicio.
+          format: time
+          type: string
+        nombreResponsable:
+          description: Nuevo nombre del responsable.
+          maxLength: 150
+          minLength: 2
+          type: string
+        cantidadAsistentes:
+          description: Nueva cantidad de asistentes. Debe ser mayor a cero.
+          format: int32
+          maximum: 1000
+          minimum: 1
+          type: integer
+        motivo:
+          description: Nuevo motivo de la reunión.
+          maxLength: 300
+          minLength: 3
+          type: string
+        estado:
+          allOf:
+          - $ref: "#/components/schemas/EstadoReserva"
+          description: "Nuevo estado de la reserva (Pendiente, Confirmada o Cancelada)."
+          format: Enumeration
+      required:
+      - estado
+      - fechaReserva
+      - horaFin
+      - horaInicio
+      - motivo
+      - nombreResponsable
+      - nombreSala
+      type: object
+  securitySchemes:
+    Bearer:
+      bearerFormat: JWT
+      description: "Escribe: Bearer {token}"
+      scheme: bearer
+      type: http
+
